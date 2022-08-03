@@ -125,7 +125,7 @@ class User extends ClientObject
      */
     public function isDeleted()
     {
-        return $this->data['deleted'];
+        return $this->data['deleted'] ?? false;
     }
 
     /**
