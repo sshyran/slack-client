@@ -75,7 +75,7 @@ class RealTimeClient extends ApiClient
         $deferred = new Promise\Deferred();
 
         // Request a real-time connection...
-        $this->apiCall('rtm.start')
+        $this->apiCall('rtm.connect')
 
         // then connect to the socket...
         ->then(function (Payload $response) {
@@ -87,27 +87,27 @@ class RealTimeClient extends ApiClient
             $this->users[$responseData['self']['id']] = new User($this, $responseData['self']);
 
             // populate list of users
-            foreach ($responseData['users'] as $data) {
+            foreach ($responseData['users'] ?? [] as $data) {
                 $this->users[$data['id']] = new User($this, $data);
             }
 
             // populate list of channels
-            foreach ($responseData['channels'] as $data) {
+            foreach ($responseData['channels'] ?? [] as $data) {
                 $this->channels[$data['id']] = new Channel($this, $data);
             }
 
             // populate list of groups
-            foreach ($responseData['groups'] as $data) {
+            foreach ($responseData['groups'] ?? [] as $data) {
                 $this->groups[$data['id']] = new Group($this, $data);
             }
 
             // populate list of dms
-            foreach ($responseData['ims'] as $data) {
+            foreach ($responseData['ims'] ?? [] as $data) {
                 $this->dms[$data['id']] = new DirectMessageChannel($this, $data);
             }
 
             // populate list of bots
-            foreach ($responseData['bots'] as $data) {
+            foreach ($responseData['bots'] ?? [] as $data) {
                 $this->bots[$data['id']] = new Bot($this, $data);
             }
 
